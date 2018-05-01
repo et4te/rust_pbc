@@ -1,0 +1,8 @@
+[package]
+name = "rust_pbc"
+version = "0.1.0"
+authors = ["Edward Tate <cmalune@gmail.com>"]
+
+[dependencies]
+libc = "0.2.0"
+sha2 = "0.7.1"
