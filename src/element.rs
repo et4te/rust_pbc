@@ -106,9 +106,9 @@ impl Element {
         }
     }
 
-    pub fn set_si(&mut self, si: c_long) {
+    pub fn set_si(&mut self, si: i64) {
         unsafe {
-            _element_set_si(self._ptr, si);
+            _element_set_si(self._ptr, si as c_long);
         }
     }
 
