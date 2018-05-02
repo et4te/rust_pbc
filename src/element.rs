@@ -143,6 +143,54 @@ impl Element {
         }
     }
 
+    pub fn mul_si(&mut self, rhs: i64) {
+        unsafe {
+            _element_mul_si(self._ptr, self._ptr, rhs as c_long);
+        }
+    }
+
+    pub fn mul_zn(&mut self, rhs: &Element) {
+        unsafe {
+            _element_mul_zn(self._ptr, self._ptr, rhs._ptr);
+        }
+    }
+
+    pub fn div(&mut self, rhs: &Element) {
+        unsafe {
+            _element_div(self._ptr, self._ptr, rhs._ptr);
+        }
+    }
+
+    pub fn double(&mut self, rhs: &Element) {
+        unsafe {
+            _element_double(self._ptr, rhs._ptr);
+        }
+    }
+
+    pub fn halve(&mut self, rhs: &Element) {
+        unsafe {
+            _element_halve(self._ptr, rhs._ptr);
+        }
+    }
+
+    pub fn square(&mut self, rhs: &Element) {
+        unsafe {
+            _element_square(self._ptr, rhs._ptr);
+        }
+    }
+
+    pub fn neg(&mut self, rhs: &Element) {
+        unsafe {
+            _element_neg(self._ptr, rhs._ptr);
+        }
+    }
+
+    pub fn invert(&mut self, rhs: &Element) {
+        unsafe {
+            _element_invert(self._ptr, rhs._ptr);
+        }
+    }
+
     // Comparison
 
     pub fn cmp(&self, rhs: &Element) -> c_int {
@@ -232,6 +280,14 @@ extern "C" {
     fn _element_add(e0: *mut Element_t, e1: *mut Element_t, e2: *mut Element_t) -> ();
     fn _element_sub(e0: *mut Element_t, e1: *mut Element_t, e2: *mut Element_t) -> ();
     fn _element_mul(e0: *mut Element_t, e1: *mut Element_t, e2: *mut Element_t) -> ();
+    fn _element_mul_si(e0: *mut Element_t, e1: *mut Element_t, si: c_long) -> ();
+    fn _element_mul_zn(e0: *mut Element_t, e1: *mut Element_t, e2: *mut Element_t) -> ();
+    fn _element_div(e0: *mut Element_t, e1: *mut Element_t, e2: *mut Element_t) -> ();
+    fn _element_double(e0: *mut Element_t, e1: *mut Element_t) -> ();
+    fn _element_halve(e0: *mut Element_t, e1: *mut Element_t) -> ();
+    fn _element_square(e0: *mut Element_t, e1: *mut Element_t) -> ();
+    fn _element_neg(e0: *mut Element_t, e1: *mut Element_t) -> ();
+    fn _element_invert(e0: *mut Element_t, e1: *mut Element_t) -> ();
     fn _element_cmp(e0: *mut Element_t, e1: *mut Element_t) -> c_int;
 
     // Hashing
@@ -241,9 +297,7 @@ extern "C" {
     // Serialisation
 
     fn _element_to_bytes(s: *mut c_uchar, e: *mut Element_t) -> c_int;
-
     fn _element_from_bytes(e: *mut Element_t, data: *mut c_uchar) -> c_int;
-
     fn _element_length_in_bytes(e: *mut Element_t) -> c_int;
 
     // RNG
