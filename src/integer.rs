@@ -1,4 +1,4 @@
-use libc::c_long;
+use libc::{c_long, c_ulong};
 
 // Rust
 
@@ -36,9 +36,17 @@ impl Integer {
         }
     }
 
-    pub fn set_si(&mut self, si: c_long) {
+    pub fn get_ui(&self) -> u64 {
+        unsafe { _integer_get_ui(self._ptr) as u64 }
+    }
+
+    pub fn get_si(&self) -> i64 {
+        unsafe { _integer_get_si(self._ptr) as i64 }
+    }
+
+    pub fn set_si(&mut self, si: i64) {
         unsafe {
-            _integer_set_si(self._ptr, si);
+            _integer_set_si(self._ptr, si as c_long);
         }
     }
 }
@@ -51,6 +59,8 @@ extern "C" {
     fn _integer_free(i: *mut Integer_t) -> ();
     fn _integer_init(i: *mut Integer_t) -> ();
     fn _integer_clear(i: *mut Integer_t) -> ();
+    fn _integer_get_ui(i: *mut Integer_t) -> c_ulong;
+    fn _integer_get_si(i: *mut Integer_t) -> c_long;
     fn _integer_set_si(i: *mut Integer_t, si: c_long) -> ();
 }
 

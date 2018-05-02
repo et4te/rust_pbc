@@ -1,4 +1,5 @@
 use group::Group;
+use integer::{Integer, Integer_t};
 use libc::{c_char, c_int, c_long, c_uchar};
 use pairing::{Pairing, Pairing_t};
 use sha2::{Digest, Sha256};
@@ -191,6 +192,14 @@ impl Element {
         }
     }
 
+    pub fn to_integer(&self) -> Integer {
+        let mut i = Integer::new();
+        unsafe {
+            _element_to_integer(i.as_mut_ptr(), self._ptr);
+        }
+        i
+    }
+
     // Comparison
 
     pub fn cmp(&self, rhs: &Element) -> c_int {
@@ -293,6 +302,7 @@ extern "C" {
     // Hashing
 
     fn _element_from_hash(e: *mut Element_t, data: *const u8, len: c_int) -> ();
+    fn _element_to_integer(i: *mut Integer_t, e: *mut Element_t) -> ();
 
     // Serialisation
 
