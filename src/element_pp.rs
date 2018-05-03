@@ -30,15 +30,15 @@ impl ElementPP {
     }
 
     // element = base ^ pow
-    pub fn pow(&mut self, dst: &mut Element, pow: &mut Integer) {
+    pub fn pow(&mut self, dst: &mut Element, pow: &Integer) {
         unsafe {
-            _element_pp_pow(dst.as_mut_ptr(), pow.as_mut_ptr(), self._ptr);
+            _element_pp_pow(dst.as_mut_ptr(), pow.as_ptr(), self._ptr);
         }
     }
 
-    pub fn pow_zn(&mut self, dst: &mut Element, pow: &mut Element) {
+    pub fn pow_zn(&mut self, dst: &mut Element, pow: &Element) {
         unsafe {
-            _element_pp_pow_zn(dst.as_mut_ptr(), pow.as_mut_ptr(), self._ptr);
+            _element_pp_pow_zn(dst.as_mut_ptr(), pow.as_ptr(), self._ptr);
         }
     }
 
@@ -55,9 +55,9 @@ impl ElementPP {
 extern "C" {
     fn _element_pp_new() -> *mut ElementPP_t;
     fn _element_pp_free(pp: *mut ElementPP_t) -> ();
-    fn _element_pp_init(pp: *mut ElementPP_t, e: *mut Element_t) -> ();
-    fn _element_pp_pow(e: *mut Element_t, si: *mut Integer_t, pp: *mut ElementPP_t) -> ();
-    fn _element_pp_pow_zn(dst: *mut Element_t, pow: *mut Element_t, pp: *mut ElementPP_t) -> ();
+    fn _element_pp_init(pp: *mut ElementPP_t, e: *const Element_t) -> ();
+    fn _element_pp_pow(e: *mut Element_t, si: *const Integer_t, pp: *mut ElementPP_t) -> ();
+    fn _element_pp_pow_zn(dst: *mut Element_t, pow: *const Element_t, pp: *mut ElementPP_t) -> ();
     fn _element_pp_clear(e: *mut ElementPP_t) -> ();
 }
 
